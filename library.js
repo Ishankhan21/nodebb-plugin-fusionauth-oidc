@@ -26,6 +26,7 @@
 			discoveryBaseURL: '',
 			authorizationEndpoint: '',
 			tokenEndpoint: '',
+			tokenScope: 'full',
 			userInfoEndpoint: '',
 		}, false, false),
 	};
@@ -85,11 +86,12 @@
 
 			// If you call this twice it will overwrite the first.
 			passport.use(constants.name, new PassportOIDC(settings, (req, accessToken, refreshToken, profile, callback) => {
+				winston.verbose('Profile ' + JSON.stringify(profile));
 				const email = profile[settings.emailClaim || 'email'];
 				const isAdmin = settings.rolesClaim ? (profile[settings.rolesClaim] === 'admin' || (profile[settings.rolesClaim] && profile[settings.rolesClaim].some && profile[settings.rolesClaim].some((value) => value === 'admin'))) : false;
 				Oidc.login({
-					oAuthid: profile.sub,
-					username: profile.preferred_username || email.split('@')[0],
+					oAuthid: profile.id,
+					username: profile.firstname + ' ' + profile.lastname || email.split('@')[0],
 					email: email,
 					rolesEnabled: settings.rolesClaim && settings.rolesClaim.length !== 0,
 					isAdmin: isAdmin,
@@ -110,7 +112,7 @@
 					url: '/auth/' + constants.name,
 					callbackURL: '/auth/' + constants.name + '/callback',
 					icon: 'fa-openid',
-					scope: ['openid', settings.emailClaim],
+					scope: 'full', // ['openid', settings.emailClaim],
 				});
 			}
 
