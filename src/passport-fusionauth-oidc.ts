@@ -6,6 +6,7 @@ export interface PassportOIDCSettings {
 	emailClaim: string;
 	authorizationEndpoint: string;
 	tokenEndpoint: string;
+	tokenScope: string;
 	userInfoEndpoint: string;
 	callbackURL: string;
 }
@@ -20,7 +21,7 @@ export class PassportOIDC extends OAuth2Strategy {
 			callbackURL: settings.callbackURL,
 			authorizationURL: settings.authorizationEndpoint,
 			tokenURL: settings.tokenEndpoint,
-			scope: ['openid', settings.emailClaim],
+			scope: settings.tokenScope, //['openid', settings.emailClaim],
 			passReqToCallback: true,
 		}, verifyFunction);
 	}

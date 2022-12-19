@@ -34,6 +34,10 @@
 						<input class="form-control" data-trim="true" id="token_endpoint" name="tokenEndpoint" type="text">
 					</div>
 					<div class="form-group">
+                                                <label for="token_scope">Scope</label>
+                                                <input class="form-control" data-trim="true" id="token_scope" name="tokenScope" type="text">
+                                        </div>
+                                        <div class="form-group">
 						<label for="user_info_endpoint">Userinfo endpoint</label>
 						<input class="form-control" data-trim="true" id="user_info_endpoint" name="userInfoEndpoint" type="text">
 					</div>
